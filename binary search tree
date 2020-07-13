@@ -1,0 +1,98 @@
+# 查找节点
+def search(root, key):
+    if not root:
+        return None
+    if root.key<key:
+        return search(root.right, key)
+    elif root.key>key:
+        return search(root.left, key)
+    else:
+        return root
+
+# 插入节点
+def insert(root, key):
+    if not root:
+        return TreeNode(key)
+    if root.key<key:
+        root.right = insert(root.right, key)
+    elif root.key>key:
+        root.left = insert(root.left, key)
+    return root
+    
+# 最小值节点
+def min(root):
+    if not root:
+        return None
+    if not root.left:
+        return root
+    return min(root.left)
+    
+# 最大值节点
+def max(root):
+    if not root:
+        return None
+    if not root.right:
+        return root
+    return max(root.right)
+    
+# 小于等于key的最大节点
+def floor(root, key):
+    if not root:
+        return None
+    if root.key<key:
+        tmp = floor(root.right, key)
+        return tmp if tmp else root
+    elif root.key>key:
+        return floor(root.left, key)
+    else:
+        return root
+        
+# 大于等于key的最小节点
+def ceiling(root, key):
+    if not root:
+        return None
+    if root.key<key:
+        return ceiling(root.right, key)
+    elif root.key>key:
+        tmp = ceiling(root.left, key)
+        return tmp if tmp else root
+    else:
+        return root
+        
+# 删除最小节点
+def deleteMin(root):
+    if not root:
+        return None
+    if not root.left:
+        return root.right
+    root.left = deleteMin(root.left)
+    return root
+    
+# 删除最大节点
+def deleteMax(root):
+    if not root:
+        return None
+    if not root.right:
+        return root.left
+    root.right = deleteMax(root.right)
+    return root
+    
+# 删除键为key的节点
+def delete(root, key):
+    if not root:
+        return None
+    if root.key<key:
+        root.right = delete(root.right, key)
+    elif root.key>key:
+        root.left = delete(root.left, key)
+    else:
+        if not root.left:
+            return root.right
+        if not root.right:
+            return root.left
+        tmp = root
+        root = min(tmp.right)
+        root.right = deleteMin(tmp.right)
+        root.left = tmp.left
+    return root
+        
