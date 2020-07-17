@@ -1,0 +1,17 @@
+# LSD
+def func(nums):
+    n = len(nums)
+    R = 256
+    aux = [0]*n
+    for d in reversed(range(len(nums[0]))):
+        cnt = [0]*R
+        for i in range(n):
+            cnt[ord(nums[i][d])+1] += 1
+        for i in range(R-1):
+            cnt[i+1] += cnt[i]
+        for i in range(n):
+            aux[cnt[ord(nums[i][d])]] = nums[i]
+            cnt[ord(nums[i][d])] += 1
+        for i in range(n):
+            nums[i] = aux[i]
+    return nums
