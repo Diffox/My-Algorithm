@@ -1,4 +1,4 @@
-# LSD
+# LSD 要求list(nums)成员字符串相同长度 nums = ['153', '123', '126', '423', '321', '152']
 def func(nums):
     n = len(nums)
     R = 256
@@ -14,4 +14,35 @@ def func(nums):
             cnt[ord(nums[i][d])] += 1
         for i in range(n):
             nums[i] = aux[i]
+    return nums
+
+# BSD list(nums)成员字符串不同长度排序 nums = ['153', '123', '12', '4', '321', '1527']
+def func(nums):
+    def sort(left, right, d):
+        if left>=right:
+            return
+        cnt = [0]*(R+2)
+        for i in range(left, right):
+            if d>=len(nums[i]):
+                cnt[1] += 1
+            else:
+                cnt[ord(nums[i][d])+2] += 1
+        for i in range(R+1):
+            cnt[i+1] += cnt[i]
+        for i in range(left, right):
+            if d>=len(nums[i]):
+                aux[cnt[0]] = nums[i]
+                cnt[0] += 1
+            else:
+                aux[cnt[ord(nums[i][d])+1]] = nums[i]
+                cnt[ord(nums[i][d])+1] += 1
+        for i in range(left, right):
+            nums[i] = aux[i]
+        for i in range(R+1):
+            sort(cnt[i], cnt[i+1], d+1)
+
+    n = len(nums)
+    R = 256
+    aux = [0]*n
+    sort(0, n, 0)
     return nums
