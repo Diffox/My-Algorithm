@@ -46,3 +46,26 @@ def func(nums):
     aux = [0]*n
     sort(0, n, 0)
     return nums
+
+# 三向快速排序
+def sort(nums, left, right, d):
+    if right<=left:
+        return
+    i, j = left, right
+    cand = ord(nums[i][d]) if 0<=d<len(nums[i]) else -1
+    k = i+1
+    while k<=j:
+        tmp = ord(nums[k][d]) if 0<=d<len(nums[k]) else -1
+        if tmp<cand:
+            nums[i], nums[k] = nums[k], nums[i]
+            i += 1
+            k += 1
+        elif tmp>cand:
+            nums[j], nums[k] = nums[k], nums[j]
+            j -= 1
+        else:
+            k += 1
+    sort(nums, left, i-1, d)
+    if cand>=0:
+        sort(nums, i, j, d+1)
+    sort(nums, j+1, right, d)
