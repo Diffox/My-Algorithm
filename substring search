@@ -1,0 +1,20 @@
+# Boyer-Moore
+def search(txt, pat):
+    if (nt:=len(txt))<(np:=len(pat)):
+        return -1
+    dp = [-1]*256
+    for i in range(np):
+        dp[ord(pat[i])] = i
+    while i<=(nt-np):
+        skip = 0
+        for j in reversed(range(np)):
+            if txt[i+j]!=pat[j]:
+                skip = j - dp[ord(txt[i+j])]
+                if skip<0:
+                    skip = 1
+                break
+        if skip==0:
+            return i
+        i += skip
+        skip = 0
+    return -1
